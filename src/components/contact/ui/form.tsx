@@ -16,7 +16,7 @@ export function Form() {
       <div className="mb-5 space-y-4">
         <LabelInputContainer>
           <div className="flex w-full justify-between">
-            <Label htmlFor="name">Name</Label>
+            <Label htmlFor="name">Nom</Label>
             {formState.errors.name?.message && (
               <span className="text-xs leading-[1] text-red-500">
                 {formState.errors.name.message}
@@ -31,7 +31,7 @@ export function Form() {
           />
         </LabelInputContainer>
         <LabelInputContainer>
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email">Adresse e-mail</Label>
           <Input
             id="email"
             placeholder="jimmy@johns.io"
