@@ -1,22 +1,21 @@
+import "~/styles/customScrollbar.css";
 import { Contact } from "~/components/contact";
 import { Footer } from "~/components/footer";
-import { Hero } from "~/components/hero";
 import { Navbar } from "~/components/navbar";
-import { Projects } from "~/components/projects";
+import { ProjectsList } from "~/components/projectsList";
 import { CustomCursor } from "~/components/CustomCursor";
-import { About } from "~/components/about";
 import { CustomContextMenu } from "~/components/customContextMenu";
 
 export default function HomePage() {
   return (
     <main className="relative">
       <Navbar />
-      <Hero />
-      <Projects />
-      <About />
+      {/* <Hero /> */}
+      <CustomCursor />
+      <ProjectsList />
+      {/* <About /> */}
       <Contact />
       <Footer />
-      <CustomCursor />
       <CustomContextMenu />
     </main>
   );

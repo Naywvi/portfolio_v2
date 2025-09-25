@@ -1,7 +1,9 @@
 "use client";
 import { useScroll, useTransform, motion } from "framer-motion";
 import React, { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation"; // Import du hook Next.js
 import { sectionHeading } from "../projects/data";
+import { sectionHeading2 } from "../projectsList/data";
 import { SectionHeading } from "./section-heading";
 import { TimelineHeading } from "./timeline-heading";
 
@@ -36,6 +38,17 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
   const ref = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState(0);
+  
+  // Solution 1: Utilisation du hook Next.js usePathname (recommandé)
+  const pathname = usePathname();
+  const isProjectsPage = pathname === "/projets";
+
+  // Solution alternative 2: Vérification côté client uniquement
+  // const [isProjectsPage, setIsProjectsPage] = useState(false);
+  // 
+  // useEffect(() => {
+  //   setIsProjectsPage(window.location.pathname === "/projets");
+  // }, []);
 
   useEffect(() => {
     if (ref.current) {
@@ -54,10 +67,18 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
 
   return (
     <div className="w-full font-sans" ref={containerRef}>
-      <SectionHeading
-        title={sectionHeading.title}
-        subTitle={sectionHeading.subTitle}
-      />
+      {isProjectsPage && (
+        <SectionHeading
+          title={sectionHeading2.title}
+          subTitle={sectionHeading2.subTitle}
+        />
+      )}
+      {!isProjectsPage && (
+        <SectionHeading
+          title={sectionHeading.title}
+          subTitle={sectionHeading.subTitle}
+        />
+      )}
       <div ref={ref} className="relative mx-auto max-w-7xl pb-20">
         {data.map((item) => (
           <TimelineHeading key={item.title} entry={item} />

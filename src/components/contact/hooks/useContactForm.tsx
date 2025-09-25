@@ -45,17 +45,17 @@ const useContactForm = () => {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to send email");
+        throw new Error("Échec de l'envoi de l'e-mail");
       }
       reset();
       toast({
-        title: "Message Sent!",
-        description: "I'll be in touch ASAP 🥳",
+        title: "Message envoyé !",
+        description: "Je vous contacterai dès que possible 🥳",
       });
       setMessage("");
       setMessageContent("");
     } catch (error) {
-      console.error("Error sending email:", error);
+      console.error("Erreur lors de l'envoi de l'e-mail:", error);
     }
   };
 

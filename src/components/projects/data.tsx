@@ -2,80 +2,74 @@ import { RiExternalLinkLine } from "react-icons/ri";
 import type { TimelineEntry } from "../ui/timeline";
 
 export const sectionHeading = {
-  title: "What I'm working on",
-  subTitle: "Let's dive into what I've been up to.",
+  title: "Sur quoi je travaille",
+  subTitle: "Plongeons dans ce que j’ai fait.",
 };
 
 export const timelineData: TimelineEntry[] = [
-  {
-    title: "cs-flashcards",
-    projectUrls: {
-      repo: {
-        owner: "yoyocharlie",
-        name: "cs-flashcards-open",
-        showStarCount: false,
-      },
-    },
-    imageUrl: "/images/cs-flashcards.png",
-    description: `A fullstack flashcards web app that I maintain as a valuable learning resource for both myself and the developer community. By open-sourcing this project, I aim to share knowledge and provide a practical tool for others to learn and grow in their development journey.`,
-    tech: [
-      "TypeScript",
-      "Next.js",
-      "TailwindCSS",
-      "shadcn/ui",
-      "tRPC",
-      "Prisma",
-      "Docker",
-      "Vercel Postgres",
-    ],
-    cards: {
-      a: {
-        title: "Comprehensive Learning Tool",
-        text: `Built with TypeScript and Next.js, this app offers a robust
-              platform to enhance your development skills. It's
-              open-sourced to provide a practical tool and valuable knowledge to
-              developers at any stage.`,
-      },
-      b: {
-        title: "Easy Integration with Your DB of Choice",
-        text: `Effortlessly integrate with your preferred database, including
-              SQLite for local use. Utilizing Prisma and tRPC, this app offers a
-              flexible and scalable backend setup, making it easy to adapt and
-              manage your data needs as you develop and expand your project.`,
-      },
-    },
-  },
-  {
-    title: "nextMotion",
-    projectUrls: {
-      site: {
-        url: "https://next-motion-five.vercel.app/",
+ {
+  title: "Audit parité",
+  projectUrls: {
+    site: {
+        url: "https://outil.paritepro.fr",
         icon: <RiExternalLinkLine size={20} />,
       },
-      repo: {
-        name: "nextMotion",
-        owner: "yoyocharlie",
-        showStarCount: true,
-      },
+    // repo: {
+    //   owner: "naywvi",
+    //   name: "parite_360",
+    //   showStarCount: false,
+    // },
+  },
+  imageUrl: "/images/parite3601.png",
+  description: `Outil d’audit de parité hommes-femmes destiné aux experts-comptables. Il facilite les contre-audits, génère des synthèses et rapports clairs, et intègre divers outils comme une matrice SWOT, un benchmark concurrentiel et des retours d’entretiens automatisés. Ces fonctionnalités ne sont que quelques exemples des nombreuses données exploitables offertes par la solution.`,
+  tech: [
+    "TypeScript",
+    "Next.js",
+    "TailwindCSS",
+    "shadcn/ui",
+    "Docker",
+    "MongoDB",
+  ],
+  cards: {
+    a: {
+      title: "Un suivi fiable et automatisé",
+      text: `Grâce à son approche quantitative et qualitative, l’application offre une vision précise de la parité au sein des entreprises et permet d’en suivre les évolutions dans le temps.`,
     },
-    imageUrl: "/images/nextMotion.png",
-    description: `An open-source, opinionated portfolio template for creating a modern, reactive SPA portfolio.`,
-    tech: [
-      "TypeScript",
-      "Next.js",
-      "TailwindCSS",
-      "Aceternity UI",
-      "Framer Motion",
-    ],
-    cards: {
-      a: {
-        title: "Modern Reactive UI",
-        text: `This portfolio template offers a clean, modern, and fully responsive design. Built to be sleek and dynamic, it leverages the latest front-end technologies to ensure a smooth and engaging user experience, perfect for showcasing your projects and skills.`,
-      },
-      b: {
-        title: "Easy Customization & Integration",
-        text: `Seamlessly customize the portfolio to fit your unique style and preferences. With support for easy integration into various data sources, this opinionated template is designed to simplify the process of building a single-page application (SPA) portfolio that truly reflects your work.`,
-      },
+    b: {
+      title: "Analyses avancées et comparatives",
+      text: `L’outil propose une matrice SWOT, un benchmark concurrentiel et des retours d’entretiens automatisés, afin de croiser les données internes avec celles du secteur et fournir une vision stratégique complète.`,
     },
-  }
+  },
+},
+{
+  title: "Sandbox d'Analyse de Malware",
+  projectUrls: {
+    repo: {
+      owner: "Lisna-Audit",
+      name: "Agent-allowing-sharing",
+      showStarCount: false,
+    },
+  },
+  imageUrl: "/images/lisna.png",
+  description: `Plateforme complète d’analyse comportementale de malware développée en Go et déployée dans un environnement virtualisé. Elle permet l’exécution sécurisée d’échantillons, le monitoring avancé via un agent cross-platform, et la génération de rapports détaillés avec export multi-format (PDF, JSON, STIX, YARA).`,
+  tech: [
+    "Go",
+    "TypeScript",
+    "Next.js",
+    "TailwindCSS",
+    "Docker",
+    "MongoDB",
+    "QEMU/KVM",
+  ],
+  cards: {
+    a: {
+      title: "Agent de monitoring avancé",
+      text: `Développé en Go, cet agent cross-platform assure la surveillance en profondeur des activités systèmes, fichiers, processus, registres, services et communications réseau sur Windows, Linux et macOS. Il détecte automatiquement les anomalies et fournit des logs structurés pour analyse.`,
+    },
+    b: {
+      title: "Visualisation et reporting",
+      text: `Les données collectées sont centralisées dans une interface web interactive : dashboard, timeline, arbre de processus, cartographie réseau. La plateforme génère des rapports détaillés et exportables dans des formats standards pour la threat intelligence.`,
+    },
+  },
+}
 ];

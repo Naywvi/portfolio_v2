@@ -41,7 +41,7 @@ const TextEditor = ({ message, setMessage }: TextEditorProps) => {
         />
       </div>
       <div className="relative max-h-[500px] w-full md:w-1/2">
-        <h3 className="sticky top-1">Email Preview</h3>
+        <h3 className="sticky top-1">Aperçu du courrier électronique</h3>
         <div
           ref={messageRef}
           id="markdown"

@@ -1,0 +1,158 @@
+/* Custom Scrollbar - Style minimaliste avec thème cursor */
+
+/* Pour les navigateurs Webkit (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+  transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #7c3aed, #0891b2);
+  border: 1px solid transparent;
+  transform: scale(1.1);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: linear-gradient(135deg, #6d28d9, #0e7490);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Version encore plus minimaliste */
+.minimal-scroll ::-webkit-scrollbar {
+  width: 4px;
+}
+
+.minimal-scroll ::-webkit-scrollbar-thumb {
+  background: rgba(139, 92, 246, 0.6);
+  border-radius: 2px;
+  border: none;
+}
+
+.minimal-scroll ::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 92, 246, 0.8);
+}
+
+/* Pour Firefox */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #8b5cf6 transparent;
+}
+
+/* Version ultra-fine pour Firefox */
+.minimal-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(139, 92, 246, 0.6) transparent;
+}
+
+/* Scrollbar avec animation au scroll */
+.animated-scroll ::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.animated-scroll ::-webkit-scrollbar-thumb::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+.animated-scroll:hover ::-webkit-scrollbar-thumb::before {
+  left: 100%;
+}
+
+/* Style pour les modales ou conteneurs spécifiques */
+.custom-scroll-container {
+  scrollbar-width: thin;
+  scrollbar-color: #8b5cf6 transparent;
+}
+
+.custom-scroll-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scroll-container::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+}
+
+.custom-scroll-container::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+  border-radius: 3px;
+  transition: all 0.2s ease;
+}
+
+.custom-scroll-container::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #7c3aed, #0891b2);
+  transform: scaleY(1.1);
+}
+
+/* Scrollbar qui apparaît seulement au hover */
+.hover-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.hover-scroll::-webkit-scrollbar {
+  width: 0px;
+  transition: width 0.3s ease;
+}
+
+.hover-scroll:hover {
+  scrollbar-width: thin;
+  scrollbar-color: #8b5cf6 transparent;
+}
+
+.hover-scroll:hover::-webkit-scrollbar {
+  width: 6px;
+}
+
+.hover-scroll:hover::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+  border-radius: 3px;
+}
+
+/* Version glassmorphism */
+.glass-scroll ::-webkit-scrollbar {
+  width: 8px;
+}
+
+.glass-scroll ::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+}
+
+.glass-scroll ::-webkit-scrollbar-thumb {
+  background: rgba(139, 92, 246, 0.7);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.glass-scroll ::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 92, 246, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}

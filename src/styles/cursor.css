@@ -1,0 +1,93 @@
+/* Curseur global - cacher le curseur par défaut */
+* {
+  cursor: none !important;
+}
+
+/* Conteneur du curseur personnalisé */
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  border: 2px solid white;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.18s ease, height 0.18s ease, border-width 0.18s ease, background-color 0.18s ease;
+  mix-blend-mode: difference; /* Effet sympa pour la visibilité */
+}
+
+/* État normal */
+.custom-cursor.normal {
+  width: 40px;
+  height: 40px;
+  border-width: 2px;
+}
+
+/* État hover - rétrécissement */
+.custom-cursor.hover {
+  width: 20px;
+  height: 20px;
+  border-width: 3px;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Variante avec point central pour plus d'effet */
+.custom-cursor::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  background-color: white;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.18s ease, height 0.18s ease;
+}
+
+.custom-cursor.hover::after {
+  width: 6px;
+  height: 6px;
+}
+
+/* Styles pour les éléments cliquables et texte */
+a, button, [role="button"], input[type="submit"], input[type="button"], .clickable,
+p, h1, h2, h3, h4, h5, h6, span, div[contenteditable], textarea, input[type="text"], input[type="email"], input[type="password"] {
+  cursor: none !important;
+}
+
+/* Animation d'apparition */
+@keyframes cursorFadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.custom-cursor {
+  animation: cursorFadeIn 0.3s ease-out;
+}
+
+/* Variante avec effet de pulsation sur hover */
+.custom-cursor.hover {
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+  }
+}

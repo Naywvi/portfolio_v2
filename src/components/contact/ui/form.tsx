@@ -25,7 +25,7 @@ export function Form() {
           </div>
           <Input
             id="name"
-            placeholder="James Jonathan"
+            placeholder="Nagib Bellakhdar"
             type="text"
             {...register("name")}
           />
@@ -45,7 +45,7 @@ export function Form() {
           <span className="flex flex-col items-baseline gap-1 md:flex-row">
             <span>Message</span>
             <span className="font-sans text-xs font-light text-muted-foreground md:text-sm">
-              (try Markdown for fun or use regular text 😎)
+              (essayez Markdown pour le plaisir ou utilisez du texte normal 😎)
             </span>
           </span>
           <Link
@@ -61,7 +61,7 @@ export function Form() {
           {formState.isSubmitting ? (
             <div className="h-8 w-8 animate-spin rounded-full border-4 border-muted-foreground border-t-violet-600" />
           ) : (
-            "Send Message"
+            "Envoyer le message"
           )}
         </Button>
       </div>

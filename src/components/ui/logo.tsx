@@ -37,8 +37,8 @@ export function Logo({
         stroke="url(#logoGradient)"
         strokeLinecap="round"
         strokeLinejoin="round"
-        filter="url(#blur)"
       />
+
       {glow && (
         <path
           d="M38.4694,26.593a6.9229,6.9229,0,0,0,9.79-9.7905"
@@ -54,6 +54,7 @@ export function Logo({
         strokeLinecap="round"
         strokeLinejoin="round"
       />
+
       {glow && (
         <path
           d="M43.25,33.1706a11.2273,11.2273,0,1,0,0-22.4545"
@@ -69,6 +70,7 @@ export function Logo({
         strokeLinecap="round"
         strokeLinejoin="round"
       />
+
       {glow && (
         <path
           d="M54.6024,32.2223a14.6374,14.6374,0,1,0-20.7-20.7"
@@ -84,6 +86,7 @@ export function Logo({
         strokeLinecap="round"
         strokeLinejoin="round"
       />
+
       {glow && (
         <text
           x="6"
@@ -94,7 +97,7 @@ export function Logo({
           fill="url(#logoGradient)"
           className="blur-[3px]"
         >
-          nextMotion
+          Naywvi
         </text>
       )}
       <text
@@ -105,7 +108,7 @@ export function Logo({
         fontWeight="bold"
         fill="white"
       >
-        nextMotion
+        Naywvi
       </text>
     </svg>
   );
