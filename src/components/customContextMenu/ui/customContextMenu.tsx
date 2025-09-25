@@ -200,8 +200,8 @@ const CustomContextMenu: React.FC<CustomContextMenuProps> = ({ className }) => {
 
   const menuItems: MenuItem[] = [
     ...(selectedText ? [
-      { icon: Copy, label: 'Copier', action: (): void => navigator.clipboard.writeText(selectedText), shortcut: 'Ctrl+C' },
-      { icon: Search, label: 'Rechercher', action: (): void => window.open(`https://google.com/search?q=${encodeURIComponent(selectedText)}`, '_blank') },
+      { icon: Copy, label: 'Copier', action: (): void => { void navigator.clipboard.writeText(selectedText); }, shortcut: 'Ctrl+C' },
+      { icon: Search, label: 'Rechercher', action: (): void => { void window.open(`https://google.com/search?q=${encodeURIComponent(selectedText)}`, '_blank'); } },
       { separator: true as const }
     ] : []),
     { icon: ArrowLeft, label: 'Précédent', action: (): void => window.history.back(), shortcut: 'Alt+←' },
@@ -211,7 +211,7 @@ const CustomContextMenu: React.FC<CustomContextMenuProps> = ({ className }) => {
     { icon: Mail, label: 'Me contacter', action: scrollToContact },
     { icon: Bookmark, label: 'Ajouter aux favoris', action: (): void => console.log('Ajouté aux favoris'), shortcut: 'Ctrl+D' },
     { icon: Share, label: 'Partager sur LinkedIn', action: shareOnLinkedIn },
-    { icon: ExternalLink, label: 'Ouvrir dans un nouvel onglet', action: (): void => window.open(window.location.href, '_blank') },
+    { icon: ExternalLink, label: 'Ouvrir dans un nouvel onglet', action: (): void => { void window.open(window.location.href, '_blank'); } },
     { separator: true as const },
     { icon: Bird, label: 'Mon oiseau 🐦', action: showBirdPopup },
   ];
