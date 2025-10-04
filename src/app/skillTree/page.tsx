@@ -9,9 +9,9 @@ export default function SkillTreePage() {
   return (
     <div className="skill-tree-container">
       <Loader />
+      <CustomCursor enabled={false} />
       <Navbar />
       <SkillTree />
-      {/* <CustomCursor /> */}
       <CustomContextMenu />
     </div>
   );

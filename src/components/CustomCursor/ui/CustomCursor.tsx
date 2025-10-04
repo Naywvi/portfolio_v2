@@ -7,27 +7,56 @@ interface CursorPosition {
   y: number;
 }
 
-export function CustomCursor(): JSX.Element {
+interface CustomCursorProps {
+  enabled?: boolean;
+}
+
+export function CustomCursor({ enabled = false }: CustomCursorProps): JSX.Element | null {
   const [cursorPos, setCursorPos] = useState<CursorPosition>({ x: -100, y: -100 });
   const [isHovering, setIsHovering] = useState<boolean>(false);
   const [isClicking, setIsClicking] = useState<boolean>(false);
   const [isPointer, setIsPointer] = useState<boolean>(false);
 
+  // Gestion du curseur système
   useEffect(() => {
-    // Mise à jour de la position du curseur
+    const html = document.documentElement;
+    const body = document.body;
+
+    if (enabled) {
+      html.style.cursor = 'none';
+      body.style.cursor = 'none';
+      html.classList.add('hide-cursor');
+      body.classList.add('hide-cursor');
+    } else {
+      html.style.cursor = '';
+      body.style.cursor = '';
+      html.classList.remove('hide-cursor');
+      body.classList.remove('hide-cursor');
+    }
+
+    // Cleanup au démontage
+    return () => {
+      html.style.cursor = '';
+      body.style.cursor = '';
+      html.classList.remove('hide-cursor');
+      body.classList.remove('hide-cursor');
+    };
+  }, [enabled]);
+
+  // Gestion des événements du curseur
+  useEffect(() => {
+    if (!enabled) return;
+
     const updateCursorPos = (e: MouseEvent) => {
       setCursorPos({ x: e.clientX, y: e.clientY });
     };
 
-    // Détection du clic
     const handleMouseDown = () => setIsClicking(true);
     const handleMouseUp = () => setIsClicking(false);
 
-    // Détection des éléments cliquables
     const handleMouseEnter = (e: Event) => {
       const target = e.target as HTMLElement;
       const computedStyle = window.getComputedStyle(target);
-
       setIsHovering(true);
       setIsPointer(computedStyle.cursor === 'pointer' ||
         target.tagName === 'A' ||
@@ -39,13 +68,11 @@ export function CustomCursor(): JSX.Element {
       setIsPointer(false);
     };
 
-    // Sélecteurs d'éléments interactifs
     const interactiveElements = document.querySelectorAll(
       'a, button, [role="button"], input, textarea, select, label, ' +
       '.clickable, [onclick], [tabindex]:not([tabindex="-1"])'
     );
 
-    // Event listeners
     document.addEventListener('mousemove', updateCursorPos);
     document.addEventListener('mousedown', handleMouseDown);
     document.addEventListener('mouseup', handleMouseUp);
@@ -55,7 +82,6 @@ export function CustomCursor(): JSX.Element {
       el.addEventListener('mouseleave', handleMouseLeave);
     });
 
-    // Cleanup
     return () => {
       document.removeEventListener('mousemove', updateCursorPos);
       document.removeEventListener('mousedown', handleMouseDown);
@@ -66,7 +92,9 @@ export function CustomCursor(): JSX.Element {
         el.removeEventListener('mouseleave', handleMouseLeave);
       });
     };
-  }, []);
+  }, [enabled]);
+
+  if (!enabled) return null;
 
   return (
     <>

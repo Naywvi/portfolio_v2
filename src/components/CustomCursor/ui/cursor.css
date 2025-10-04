@@ -1,8 +1,9 @@
-/* Masquer le curseur par défaut */
-* {
+html.hide-cursor,
+html.hide-cursor *,
+body.hide-cursor,
+body.hide-cursor * {
   cursor: none !important;
 }
-
 /* Curseur principal - Flèche SVG */
 .custom-cursor-arrow {
   position: fixed;
@@ -143,4 +144,9 @@ body.resizing .custom-cursor-arrow {
   transform: translateZ(0);
   backface-visibility: hidden;
   perspective: 1000px;
+}
+/* Seulement quand le curseur custom est actif */
+body.custom-cursor-active,
+body.custom-cursor-active * {
+  cursor: none !important;
 }

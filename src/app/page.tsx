@@ -18,7 +18,7 @@ export default function HomePage() {
       <About />
       <Contact />
       <Footer />
-      <CustomCursor />
+      <CustomCursor enabled={true} />
       <CustomContextMenu />
     </main>
   );

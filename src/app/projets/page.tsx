@@ -13,7 +13,7 @@ export default function HomePage() {
       <Loader />
       <Navbar />
       {/* <Hero /> */}
-      <CustomCursor />
+      <CustomCursor enabled={true} />
       <ProjectsList />
       {/* <About /> */}
       <Contact />
