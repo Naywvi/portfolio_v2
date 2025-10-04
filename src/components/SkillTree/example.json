@@ -1,0 +1,75 @@
+{
+    "name": "JavaScript ES6+",
+    "audiences": {
+        "visitor": {
+            "level": 5,
+            "description": "JavaScript moderne et fonctionnel",
+            "projects": [
+                "Applications complexes",
+                "Frameworks custom"
+            ]
+        },
+        "hr": {
+            "level": 5,
+            "years_experience": 4,
+            "color": "#f59e0b",
+            "performance": "Optimisations performance critiques",
+            "team_impact": "Formation équipe sur ES6+, amélioration productivité 40%",
+            "projects": {
+                "semayas": {
+                    "name": "SEMAYAS Platform",
+                    "url": "https://semayas.com"
+                },
+                "emillei": {
+                    "name": "EMILLEI Dashboard",
+                    "url": "https://emillei.fr"
+                },
+                "letsplay": {
+                    "name": "Let's Play API"
+                }
+            }
+        },
+        "technical": {
+            "level": 5,
+            "years_experience": 4,
+            "es6_plus": [
+                "Arrow functions",
+                "Destructuring",
+                "Promises/Async",
+                "Modules",
+                "Classes",
+                "Template literals",
+                "Map/Set",
+                "Symbols"
+            ],
+            "advanced": [
+                "Closures",
+                "Prototypal inheritance",
+                "Event loop",
+                "Memory management"
+            ],
+            "modules": [
+                "CommonJS",
+                "ES modules",
+                "AMD",
+                "UMD"
+            ],
+            "performance": [
+                "Bundle optimization",
+                "Tree shaking",
+                "Code splitting",
+                "Lazy loading"
+            ],
+            "lines_of_code": 50000,
+            "projects": {
+                "custom_framework": {
+                    "name": "Framework JS Custom",
+                    "url": "https://github.com/monrepo/framework"
+                },
+                "performance_lib": {
+                    "name": "Performance Library"
+                }
+            }
+        }
+    }
+}

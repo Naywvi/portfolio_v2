@@ -6,10 +6,12 @@ import { Projects } from "~/components/projects";
 import { CustomCursor } from "~/components/CustomCursor";
 import { About } from "~/components/about";
 import { CustomContextMenu } from "~/components/customContextMenu";
+import { Loader } from "~/components/loader"
 
 export default function HomePage() {
   return (
     <main className="relative">
+      <Loader />
       <Navbar />
       <Hero />
       <Projects />

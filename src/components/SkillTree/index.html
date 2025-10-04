@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Créateur de JSON Compétences</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background: #1a1a1a;
+            color: white;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 300px 1fr 1fr;
+            gap: 20px;
+            height: 90vh;
+        }
+        
+        .panel {
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #444;
+            overflow-y: auto;
+        }
+        
+        h1, h2, h3 {
+            margin-bottom: 15px;
+            color: #fff;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #ccc;
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            background: #333;
+            border: 1px solid #555;
+            border-radius: 4px;
+            color: white;
+            font-size: 14px;
+        }
+        
+        button {
+            background: #0066cc;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px 5px 5px 0;
+            font-size: 14px;
+        }
+        
+        button:hover { background: #0052a3; }
+        .btn-danger { background: #cc0000; }
+        .btn-danger:hover { background: #a30000; }
+        .btn-success { background: #009900; }
+        .btn-success:hover { background: #007700; }
+        .btn-secondary { background: #666; }
+        .btn-secondary:hover { background: #555; }
+        
+        /* Arborescence */
+        .tree-item {
+            padding: 8px;
+            margin: 2px 0;
+            border-radius: 4px;
+            cursor: pointer;
+            background: #333;
+            border: 1px solid #555;
+        }
+        
+        .tree-item:hover { background: #444; }
+        .tree-item.selected { background: #0066cc; }
+        .tree-item.has-children { font-weight: bold; }
+        
+        .tree-children {
+            margin-left: 20px;
+            border-left: 2px solid #555;
+            padding-left: 10px;
+        }
+        
+        /* Formulaires */
+        .form-section {
+            background: #333;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            border: 1px solid #555;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .custom-section {
+            background: #444;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+            border: 1px solid #666;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .array-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin: 10px 0;
+        }
+        
+        .array-item {
+            background: #555;
+            padding: 5px 10px;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .projects-list .project-item {
+            background: #555;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 4px;
+            border: 1px solid #666;
+        }
+        
+        #jsonOutput {
+            background: #1e1e1e;
+            color: #f8f8f2;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            white-space: pre;
+            overflow: auto;
+            border: 1px solid #555;
+            padding: 15px;
+            border-radius: 4px;
+            height: calc(100% - 80px);
+        }
+        
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            background: #444;
+            border: 1px solid #555;
+            cursor: pointer;
+            border-radius: 4px 4px 0 0;
+            margin-right: 5px;
+        }
+        
+        .tab.active { background: #0066cc; }
+        
+        .breadcrumb {
+            background: #333;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <h1>Créateur de JSON Compétences</h1>
+    
+    <div class="container">
+        <!-- Navigation arborescence -->
+        <div class="panel">
+            <h2>Structure</h2>
+            <button onclick="addRootChild()">+ Nouvelle compétence</button>
+            <div id="treeView"></div>
+        </div>
+        
+        <!-- Éditeur -->
+        <div class="panel">
+            <h2>Éditeur</h2>
+            <div class="breadcrumb" id="breadcrumb">Racine</div>
+            
+            <form id="nodeForm" onsubmit="return false;">
+                <div class="form-group">
+                    <label>Nom de la compétence:</label>
+                    <input type="text" id="nodeName" onchange="updateCurrentNode()">
+                </div>
+                
+                <div class="form-group">
+                    <label>Couleur de la bulle:</label>
+                    <input type="color" id="nodeColor" onchange="updateCurrentNode()">
+                    <button type="button" class="btn-secondary" onclick="clearNodeColor()">Effacer</button>
+                </div>
+                
+                <div class="form-group">
+                    <button type="button" onclick="addChild()">+ Ajouter sous-compétence</button>
+                    <button type="button" class="btn-danger" onclick="deleteCurrentNode()">🗑 Supprimer ce nœud</button>
+                </div>
+            </form>
+            
+            <div class="tabs">
+                <div class="tab active" onclick="switchTab('visitor')">Visiteur</div>
+                <div class="tab" onclick="switchTab('hr')">RH</div>
+                <div class="tab" onclick="switchTab('technical')">Technique</div>
+            </div>
+            
+            <form id="audienceForm" onsubmit="return false;">
+                <div class="form-section">
+                    <h3>Propriétés de base</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Niveau (1-5):</label>
+                            <input type="number" min="1" max="5" id="level" onchange="updateCurrentAudience()">
+                        </div>
+                        <div class="form-group" id="experienceGroup">
+                            <label>Années d'expérience:</label>
+                            <input type="number" min="0" id="years_experience" onchange="updateCurrentAudience()">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Description:</label>
+                        <textarea id="description" rows="3" onchange="updateCurrentAudience()"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Couleur d'audience:</label>
+                        <input type="color" id="audienceColor" onchange="updateCurrentAudience()">
+                        <button type="button" class="btn-secondary" onclick="clearAudienceColor()">Effacer</button>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3>Propriétés personnalisées</h3>
+                    <button type="button" onclick="addCustomProperty('string')">+ Texte</button>
+                    <button type="button" onclick="addCustomProperty('array')">+ Liste</button>
+                    <button type="button" onclick="addCustomProperty('number')">+ Nombre</button>
+                    <button type="button" onclick="addCustomProperty('projects')">+ Projets</button>
+                    <div id="customProperties"></div>
+                </div>
+            </form>
+        </div>
+        
+        <!-- JSON -->
+        <div class="panel">
+            <h2>JSON Généré</h2>
+            <button class="btn-success" onclick="copyJSON()">📋 Copier</button>
+            <button class="btn-success" onclick="downloadJSON()">💾 Télécharger</button>
+            <button class="btn-secondary" onclick="loadFromJSON()">📂 Charger JSON</button>
+            <div id="jsonOutput"></div>
+        </div>
+    </div>
+
+    <script>
+        let skillTree = {
+            name: "Skills",
+            children: []
+        };
+        
+        let currentNode = skillTree;
+        let currentAudience = 'visitor';
+        let selectedPath = [];
+
+        function renderTree() {
+            const container = document.getElementById('treeView');
+            container.innerHTML = '';
+            
+            function renderNode(node, path = [], depth = 0) {
+                const div = document.createElement('div');
+                const isSelected = currentNode === node;
+                
+                div.className = `tree-item ${isSelected ? 'selected' : ''} ${node.children && node.children.length ? 'has-children' : ''}`;
+                div.style.marginLeft = depth * 10 + 'px';
+                div.textContent = node.name;
+                div.onclick = () => selectNode(node, path);
+                
+                container.appendChild(div);
+                
+                if (node.children) {
+                    node.children.forEach((child, index) => {
+                        renderNode(child, [...path, index], depth + 1);
+                    });
+                }
+            }
+            
+            renderNode(skillTree);
+        }
+        
+        function selectNode(node, path) {
+            currentNode = node;
+            selectedPath = path;
+            updateBreadcrumb();
+            loadNodeData();
+            renderTree();
+        }
+        
+        function updateBreadcrumb() {
+            const breadcrumb = document.getElementById('breadcrumb');
+            let current = skillTree;
+            let path = [current.name];
+            
+            selectedPath.forEach(index => {
+                current = current.children[index];
+                path.push(current.name);
+            });
+            
+            breadcrumb.textContent = path.join(' > ');
+        }
+        
+        function loadNodeData() {
+            document.getElementById('nodeName').value = currentNode.name || '';
+            document.getElementById('nodeColor').value = currentNode.color || '#000000';
+            
+            // Initialiser les audiences si elles n'existent pas
+            if (!currentNode.audiences) {
+                currentNode.audiences = {
+                    visitor: {},
+                    hr: {},
+                    technical: {}
+                };
+            }
+            
+            loadAudienceData();
+        }
+        
+        function loadAudienceData() {
+            const audience = currentNode.audiences[currentAudience] || {};
+            
+            document.getElementById('level').value = audience.level || '';
+            document.getElementById('years_experience').value = audience.years_experience || '';
+            document.getElementById('description').value = audience.description || '';
+            document.getElementById('audienceColor').value = audience.color || '#000000';
+            
+            // Masquer/afficher les années d'expérience
+            document.getElementById('experienceGroup').style.display = 
+                currentAudience === 'visitor' ? 'none' : 'block';
+            
+            renderCustomProperties();
+        }
+        
+        function switchTab(audience) {
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            currentAudience = audience;
+            loadAudienceData();
+        }
+        
+        function updateCurrentNode() {
+            currentNode.name = document.getElementById('nodeName').value;
+            const color = document.getElementById('nodeColor').value;
+            if (color && color !== '#000000') {
+                currentNode.color = color;
+            } else {
+                delete currentNode.color;
+            }
+            renderTree();
+            updateJSON();
+        }
+        
+        function updateCurrentAudience() {
+            const audience = currentNode.audiences[currentAudience];
+            
+            const level = parseInt(document.getElementById('level').value);
+            const experience = parseInt(document.getElementById('years_experience').value);
+            const description = document.getElementById('description').value;
+            const audienceColor = document.getElementById('audienceColor').value;
+            
+            if (level) audience.level = level;
+            else delete audience.level;
+            
+            if (experience && currentAudience !== 'visitor') audience.years_experience = experience;
+            else delete audience.years_experience;
+            
+            if (description) audience.description = description;
+            else delete audience.description;
+            
+            if (audienceColor && audienceColor !== '#000000') audience.audience_color = audienceColor;
+            else delete audience.audience_color;
+            
+            updateJSON();
+        }
+        
+        function clearNodeColor() {
+            document.getElementById('nodeColor').value = '#000000';
+            delete currentNode.color;
+            updateJSON();
+        }
+        
+        function clearAudienceColor() {
+            document.getElementById('audienceColor').value = '#000000';
+            delete currentNode.audiences[currentAudience].audience_color;
+            updateJSON();
+        }
+        
+        function addChild() {
+            if (!currentNode.children) currentNode.children = [];
+            
+            const newNode = {
+                name: "Nouvelle compétence",
+                audiences: {
+                    visitor: {},
+                    hr: {},
+                    technical: {}
+                }
+            };
+            
+            currentNode.children.push(newNode);
+            renderTree();
+            updateJSON();
+        }
+        
+        function addRootChild() {
+            if (!skillTree.children) skillTree.children = [];
+            
+            const newNode = {
+                name: "Nouvelle compétence",
+                audiences: {
+                    visitor: {},
+                    hr: {},
+                    technical: {}
+                }
+            };
+            
+            skillTree.children.push(newNode);
+            renderTree();
+            updateJSON();
+        }
+        
+        function deleteCurrentNode() {
+            if (currentNode === skillTree) {
+                alert("Impossible de supprimer le nœud racine");
+                return;
+            }
+            
+            if (!confirm("Supprimer ce nœud et tous ses enfants ?")) return;
+            
+            // Trouver le parent et supprimer
+            let parent = skillTree;
+            for (let i = 0; i < selectedPath.length - 1; i++) {
+                parent = parent.children[selectedPath[i]];
+            }
+            
+            parent.children.splice(selectedPath[selectedPath.length - 1], 1);
+            
+            // Retourner au parent
+            selectNode(parent, selectedPath.slice(0, -1));
+            renderTree();
+            updateJSON();
+        }
+        
+        function addCustomProperty(type) {
+            const audience = currentNode.audiences[currentAudience];
+            
+            if (type === 'string') {
+                const name = prompt("Nom de la propriété:");
+                if (name) {
+                    audience[name] = "";
+                }
+            } else if (type === 'array') {
+                const name = prompt("Nom de la propriété:");
+                if (name) {
+                    audience[name] = [];
+                }
+            } else if (type === 'projects') {
+                if (currentAudience === 'visitor') {
+                    audience.projects = [];
+                } else {
+                    audience.projects = {};
+                }
+            } else if (type === 'number') {
+                const name = prompt("Nom de la propriété:");
+                if (name) {
+                    audience[name] = 0;
+                }
+            }
+            
+            renderCustomProperties();
+            updateJSON();
+        }
+        
+        function renderCustomProperties() {
+            const audience = currentNode.audiences[currentAudience];
+            const container = document.getElementById('customProperties');
+            container.innerHTML = '';
+            
+            Object.entries(audience).forEach(([key, value]) => {
+                if (['level', 'years_experience', 'description', 'color'].includes(key)) return;
+                
+                const section = document.createElement('div');
+                section.className = 'custom-section';
+                
+                if (key === 'projects') {
+                    if (Array.isArray(value)) {
+                        // Format visitor : array simple
+                        section.innerHTML = `
+                            <div class="section-header">
+                                <h4>Projets (liste simple)</h4>
+                                <button class="btn-danger" onclick="removeProperty('${key}')">Supprimer</button>
+                            </div>
+                            <div class="array-items">
+                                ${value.map((item, idx) => `
+                                    <div class="array-item">
+                                        <span>${item}</span>
+                                        <button onclick="removeArrayItem('${key}', ${idx})">×</button>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <button onclick="addArrayItem('${key}')">+ Ajouter projet</button>
+                        `;
+                    } else {
+                        // Format hr/technical : objets avec URL
+                        section.innerHTML = `
+                            <div class="section-header">
+                                <h4>Projets (avec URL)</h4>
+                                <button class="btn-danger" onclick="removeProperty('${key}')">Supprimer</button>
+                            </div>
+                            <div class="projects-list">
+                                ${Object.entries(value).map(([projectKey, projectData]) => `
+                                    <div class="project-item">
+                                        <strong>${projectData.name}</strong>
+                                        ${projectData.url ? `<br><a href="${projectData.url}" target="_blank" style="color: #66ccff;">${projectData.url}</a>` : ''}
+                                        <button class="btn-danger" style="float: right;" onclick="removeProject('${projectKey}')">×</button>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <button onclick="addProject()">+ Ajouter projet</button>
+                        `;
+                    }
+                } else if (Array.isArray(value)) {
+                    section.innerHTML = `
+                        <div class="section-header">
+                            <h4>${key}</h4>
+                            <button class="btn-danger" onclick="removeProperty('${key}')">Supprimer</button>
+                        </div>
+                        <div class="array-items">
+                            ${value.map((item, idx) => `
+                                <div class="array-item">
+                                    <span>${item}</span>
+                                    <button onclick="removeArrayItem('${key}', ${idx})">×</button>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <button onclick="addArrayItem('${key}')">+ Ajouter</button>
+                    `;
+                } else if (typeof value === 'number') {
+                    section.innerHTML = `
+                        <div class="section-header">
+                            <h4>${key}</h4>
+                            <button class="btn-danger" onclick="removeProperty('${key}')">Supprimer</button>
+                        </div>
+                        <input type="number" value="${value}" onchange="updateNumberProperty('${key}', this.value)">
+                    `;
+                } else {
+                    section.innerHTML = `
+                        <div class="section-header">
+                            <h4>${key}</h4>
+                            <button class="btn-danger" onclick="removeProperty('${key}')">Supprimer</button>
+                        </div>
+                        <input type="text" value="${value}" onchange="updateStringProperty('${key}', this.value)">
+                    `;
+                }
+                
+                container.appendChild(section);
+            });
+        }
+        
+        function updateNumberProperty(key, value) {
+            currentNode.audiences[currentAudience][key] = parseInt(value) || 0;
+            updateJSON();
+        }
+        
+        function removeProperty(key) {
+            delete currentNode.audiences[currentAudience][key];
+            renderCustomProperties();
+            updateJSON();
+        }
+        
+        function updateStringProperty(key, value) {
+            currentNode.audiences[currentAudience][key] = value;
+            updateJSON();
+        }
+        
+        function addArrayItem(key) {
+            const value = prompt("Nouvel élément:");
+            if (value) {
+                currentNode.audiences[currentAudience][key].push(value);
+                renderCustomProperties();
+                updateJSON();
+            }
+        }
+        
+        function removeArrayItem(key, index) {
+            currentNode.audiences[currentAudience][key].splice(index, 1);
+            renderCustomProperties();
+            updateJSON();
+        }
+        
+        function addProject() {
+            const projectKey = prompt("Clé du projet:");
+            if (!projectKey) return;
+            
+            const projectName = prompt("Nom du projet:");
+            if (!projectName) return;
+            
+            const projectUrl = prompt("URL du projet (optionnel):");
+            
+            const audience = currentNode.audiences[currentAudience];
+            if (!audience.projects) audience.projects = {};
+            
+            audience.projects[projectKey] = { name: projectName };
+            if (projectUrl) audience.projects[projectKey].url = projectUrl;
+            
+            renderCustomProperties();
+            updateJSON();
+        }
+        
+        function removeProject(key) {
+            delete currentNode.audiences[currentAudience].projects[key];
+            renderCustomProperties();
+            updateJSON();
+        }
+        
+        function updateCustomSection(sectionKey, property, value) {
+            currentNode.audiences[currentAudience][sectionKey][property] = value;
+            updateJSON();
+        }
+        
+        function addCustomSectionItem(sectionKey) {
+            const value = prompt("Nouvel élément:");
+            if (value) {
+                currentNode.audiences[currentAudience][sectionKey].data.push(value);
+                renderCustomProperties();
+                updateJSON();
+            }
+        }
+        
+        function removeCustomSectionItem(sectionKey, index) {
+            currentNode.audiences[currentAudience][sectionKey].data.splice(index, 1);
+            renderCustomProperties();
+            updateJSON();
+        }
+        
+        function updateJSON() {
+            document.getElementById('jsonOutput').textContent = JSON.stringify(skillTree, null, 2);
+        }
+        
+        function copyJSON() {
+            const jsonText = document.getElementById('jsonOutput').textContent;
+            navigator.clipboard.writeText(jsonText).then(() => {
+                alert('JSON copié !');
+            });
+        }
+        
+        function downloadJSON() {
+            const jsonText = document.getElementById('jsonOutput').textContent;
+            const blob = new Blob([jsonText], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${skillTree.name.replace(/\s+/g, '_')}.json`;
+            a.click();
+        }
+        
+        function loadFromJSON() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        try {
+                            skillTree = JSON.parse(e.target.result);
+                            currentNode = skillTree;
+                            selectedPath = [];
+                            renderTree();
+                            loadNodeData();
+                            updateJSON();
+                        } catch (error) {
+                            alert('Erreur lors du chargement du JSON');
+                        }
+                    };
+                    reader.readAsText(file);
+                }
+            };
+            input.click();
+        }
+        
+        // Initialisation
+        renderTree();
+        loadNodeData();
+        updateJSON();
+    </script>
+</body>
+</html>

@@ -2,7 +2,6 @@ import "~/styles/globals.css";
 import "~/styles/customScrollbar.css";
 
 import { GeistSans } from "geist/font/sans";
-import { type Metadata } from "next";
 import { Toaster } from "~/components/ui/toaster";
 
 export const metadata = {

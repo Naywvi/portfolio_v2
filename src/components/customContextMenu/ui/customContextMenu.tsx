@@ -45,8 +45,7 @@ const CustomContextMenu: React.FC<CustomContextMenuProps> = ({ className }) => {
     if (contactSection) {
       contactSection.scrollIntoView({ behavior: 'smooth' });
     } else {
-      // Fallback si pas de section contact
-      window.location.hash = '#contact';
+      window.open('mailto:nagib.lakhdari.pro@gmail.com');
     }
   };
 
@@ -144,19 +143,24 @@ const CustomContextMenu: React.FC<CustomContextMenuProps> = ({ className }) => {
 
   useEffect(() => {
     const handleContextMenu = (e: MouseEvent): void => {
+      // Si Shift est maintenu, laisse passer le menu natif
+      if (e.shiftKey) {
+        return;
+      }
+
       e.preventDefault();
-      
+
       // Récupère le texte sélectionné
       const selection = window.getSelection()?.toString() || '';
       setSelectedText(selection);
-      
+
       // Position du menu avec vérification des limites
       const menuWidth = 240;
       const menuHeight = 400; // estimation
-      
+
       let x = e.clientX;
       let y = e.clientY;
-      
+
       // Ajuste la position si le menu dépasse
       if (x + menuWidth > window.innerWidth) {
         x = window.innerWidth - menuWidth - 10;
@@ -164,7 +168,7 @@ const CustomContextMenu: React.FC<CustomContextMenuProps> = ({ className }) => {
       if (y + menuHeight > window.innerHeight) {
         y = window.innerHeight - menuHeight - 10;
       }
-      
+
       setPosition({ x, y });
       setIsVisible(true);
     };
@@ -209,7 +213,6 @@ const CustomContextMenu: React.FC<CustomContextMenuProps> = ({ className }) => {
     { icon: RotateCcw, label: 'Actualiser', action: (): void => window.location.reload(), shortcut: 'Ctrl+R' },
     { separator: true as const },
     { icon: Mail, label: 'Me contacter', action: scrollToContact },
-    { icon: Bookmark, label: 'Ajouter aux favoris', action: (): void => console.log('Ajouté aux favoris'), shortcut: 'Ctrl+D' },
     { icon: Share, label: 'Partager sur LinkedIn', action: shareOnLinkedIn },
     { icon: ExternalLink, label: 'Ouvrir dans un nouvel onglet', action: (): void => { void window.open(window.location.href, '_blank'); } },
     { separator: true as const },
@@ -231,9 +234,9 @@ const CustomContextMenu: React.FC<CustomContextMenuProps> = ({ className }) => {
     <>
       {/* Overlay transparent pour fermer le menu */}
       <div className="fixed inset-0 z-40" onClick={() => setIsVisible(false)} />
-      
+
       {/* Menu contextuel */}
-      <div 
+      <div
         ref={menuRef}
         className={`fixed z-50 min-w-[240px] max-w-[300px] bg-[#1a1a1a]/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl ${className || ''}`}
         style={{
@@ -244,14 +247,14 @@ const CustomContextMenu: React.FC<CustomContextMenuProps> = ({ className }) => {
       >
         {/* Effet de brillance en haut */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-[1px] bg-gradient-to-r from-transparent via-purple-500/50 to-transparent" />
-        
+
         <div className="py-2">
           {menuItems.map((item, index) => {
             if ('separator' in item && item.separator) {
               return (
-                <div 
-                  key={`separator-${index}`} 
-                  className="my-1 mx-3 h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" 
+                <div
+                  key={`separator-${index}`}
+                  className="my-1 mx-3 h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent"
                 />
               );
             }
@@ -265,11 +268,11 @@ const CustomContextMenu: React.FC<CustomContextMenuProps> = ({ className }) => {
                 title={menuItem.label}
               >
                 <menuItem.icon className="w-4 h-4 text-white/60 group-hover:text-purple-400 transition-colors duration-200 flex-shrink-0" />
-                
+
                 <span className="flex-1 text-sm font-medium truncate">
                   {menuItem.label}
                 </span>
-                
+
                 {menuItem.shortcut && (
                   <span className="text-xs text-white/40 font-mono bg-white/5 px-2 py-1 rounded border border-white/10 flex-shrink-0">
                     {menuItem.shortcut}
@@ -279,11 +282,12 @@ const CustomContextMenu: React.FC<CustomContextMenuProps> = ({ className }) => {
             );
           })}
         </div>
-        
+
         {/* Footer avec infos */}
         <div className="border-t border-white/10 px-4 py-2">
           <div className="text-xs text-white/40 text-center">
-            Menu personnalisé • {new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
+            Nagib Lakhdari • {new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
+            <div className="mt-1 text-purple-400/60">Shift + Clic droit = Menu natif</div>
           </div>
         </div>
       </div>
