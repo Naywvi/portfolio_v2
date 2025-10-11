@@ -1,0 +1,74 @@
+/* Fond général */
+body {
+  background-color: #0f111a; /* fond très sombre */
+  color: #e5e7eb; /* texte gris clair */
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+/* Conteneur du graphe */
+.graph-container {
+  background-color: #0f111a;
+  background-image: radial-gradient(circle at center, #1c1f2e 1px, transparent 1px);
+  background-size: 28px 28px; /* grille discrète */
+  overflow: hidden;
+  position: relative;
+}
+
+/* Nœuds */
+.node-bg {
+  fill: #1c1f2e; /* fond boîte */
+  stroke: #3b3f5c; /* bordure subtile */
+  stroke-width: 1.5px;
+  rx: 12px; /* coins arrondis */
+  transition: stroke 0.2s, fill 0.2s;
+}
+
+/* Hover sur un nœud */
+.node-bg:hover {
+  stroke: #6366f1; /* violet/bleu clair */
+  fill: #25293e;
+}
+
+/* Texte principal (clé) */
+.node text.key {
+  fill: #60a5fa; /* bleu clair */
+  font-weight: 600;
+  font-size: 13px;
+}
+
+/* Texte valeur */
+.node text.value {
+  fill: #9ca3af;
+  font-weight: 400;
+  font-size: 12px;
+}
+
+/* Lien entre nœuds */
+.link {
+  fill: none;
+  stroke: #4f46e5; /* violet */
+  stroke-opacity: 0.6;
+  stroke-width: 2px;
+  transition: stroke 0.2s, stroke-width 0.2s;
+}
+
+/* Lien hover */
+.link:hover {
+  stroke: #fbbf24; /* jaune */
+  stroke-width: 3px;
+  stroke-opacity: 1;
+}
+
+/* Petits ronds (icône enfant) */
+.node circle {
+  fill: #3730a3; /* violet foncé */
+  stroke: #6366f1;
+  stroke-width: 1px;
+}
+
+/* Label des compteurs enfants */
+.node text.count {
+  fill: #e0e7ff;
+  font-size: 11px;
+  font-weight: 600;
+}

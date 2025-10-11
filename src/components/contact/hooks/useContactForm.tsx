@@ -1,40 +1,36 @@
-import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useForm, type UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMessage } from "~/contexts/message-context";
 import { useToast } from "~/hooks/use-toast";
 
-const formData = z.object({
-  name: z.string().min(1, { message: "Name is required" }),
-  email: z.string().email(),
+const formSchema = z.object({
+  name: z.string().min(1, { message: "Le nom est requis" }),
+  email: z.string().email({ message: "Email invalide" }),
+  message: z.string().min(10, { message: "Le message doit contenir au moins 10 caractères" }),
 });
 
-const emailData = z.object({
-  name: z.string(),
-  email: z.string(),
-  message: z.string(),
-});
+type FormData = z.infer<typeof formSchema>;
 
-type FormData = z.infer<typeof formData>;
-type EmailData = z.infer<typeof emailData>;
+interface UseContactFormReturn {
+  register: UseFormReturn<FormData>["register"];
+  handleSubmit: UseFormReturn<FormData>["handleSubmit"];
+  formState: UseFormReturn<FormData>["formState"];
+  onSubmit: (data: FormData) => Promise<void>;
+}
 
-const useContactForm = () => {
-  const [message, setMessage] = useState<string>("");
-  const { messageContent, setMessageContent } = useMessage();
+const useContactForm = (): UseContactFormReturn => {
   const { toast } = useToast();
 
-  const { register, handleSubmit, watch, reset, formState } = useForm<FormData>(
-    {
-      defaultValues: {
-        name: "",
-        email: "",
-      },
-      resolver: zodResolver(formData),
+  const { register, handleSubmit, reset, formState } = useForm<FormData>({
+    defaultValues: {
+      name: "",
+      email: "",
+      message: "",
     },
-  );
+    resolver: zodResolver(formSchema),
+  });
 
-  const sendEmail = async (data: EmailData) => {
+  const sendEmail = async (data: FormData): Promise<void> => {
     try {
       const response = await fetch("/api/email", {
         method: "POST",
@@ -47,34 +43,30 @@ const useContactForm = () => {
       if (!response.ok) {
         throw new Error("Échec de l'envoi de l'e-mail");
       }
+
       reset();
       toast({
         title: "Message envoyé !",
         description: "Je vous contacterai dès que possible 🥳",
       });
-      setMessage("");
-      setMessageContent("");
     } catch (error) {
       console.error("Erreur lors de l'envoi de l'e-mail:", error);
+      toast({
+        title: "Erreur",
+        description: "Une erreur est survenue lors de l'envoi du message.",
+        variant: "destructive",
+      });
     }
   };
 
-  const onSubmit = async (data: FormData) => {
-    const sanitizedData = {
-      ...data,
-      message: messageContent,
-    };
-
-    await sendEmail(sanitizedData);
+  const onSubmit = async (data: FormData): Promise<void> => {
+    await sendEmail(data);
   };
 
   return {
     register,
     handleSubmit,
-    watch,
     formState,
-    message,
-    setMessage,
     onSubmit,
   };
 };

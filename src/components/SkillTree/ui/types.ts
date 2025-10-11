@@ -54,7 +54,7 @@ export interface NodeData {
 }
 
 export type AudienceType = 'visitor' | 'hr' | 'technical';
-export type VisualizationMode = 'organic' | 'radial' | 'treemap' | 'sunburst' | 'network';
+export type VisualizationMode = 'sunburst' | 'network';
 
 export interface VisualizationConfig {
   name: string;
@@ -67,6 +67,8 @@ export interface AudienceConfig {
   name: string;
   icon: string;
   color: string;
+  description: string;
+  badge: string;
 }
 
 export interface HierarchyNode {

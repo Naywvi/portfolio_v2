@@ -1,24 +1,6 @@
 import { VisualizationMode, AudienceType, VisualizationConfig, AudienceConfig } from './types';
 
 export const visualizationModes: Record<VisualizationMode, VisualizationConfig> = {
-  organic: {
-    name: 'Organique',
-    icon: '🫧',
-    description: 'Bulles organiques avec physique',
-    color: '#60a5fa'
-  },
-  radial: {
-    name: 'Radiale',
-    icon: '⭐',
-    description: 'Cercles concentriques',
-    color: '#fbbf24'
-  },
-  // treemap: {
-  //   name: 'TreeMap',
-  //   icon: '🗂️',
-  //   description: 'Rectangles imbriqués',
-  //   color: '#f472b6'
-  // },
   sunburst: {
     name: 'Solaire',
     icon: '☀️',
@@ -28,25 +10,31 @@ export const visualizationModes: Record<VisualizationMode, VisualizationConfig> 
   network: {
     name: 'Réseau',
     icon: '🕸️',
-    description: 'Graphe de réseau optimisé',
+    description: 'Graphe de réseau interactif',
     color: '#a78bfa'
   }
 };
 
 export const audienceConfig: Record<AudienceType, AudienceConfig> = {
   visitor: {
-    name: 'Je suis un simple visiteur',
+    name: 'Visiteur',
     icon: '👋',
-    color: '#22c55e'
+    color: '#22c55e',
+    description: 'Vue simplifiée et accessible pour découvrir mes compétences',
+    badge: 'Découverte'
   },
   hr: {
-    name: 'Je suis RH',
+    name: 'Recruteur',
     icon: '💼',
-    color: '#3b82f6'
+    color: '#3b82f6',
+    description: 'Focus sur l\'impact business, le leadership et les résultats concrets',
+    badge: 'Business'
   },
   technical: {
-    name: "J'ai un profil technique",
+    name: 'Technique',
     icon: '⚙️',
-    color: '#f59e0b'
+    color: '#f59e0b',
+    description: 'Détails techniques complets, architecture et stack technologique',
+    badge: 'Expert'
   }
 };

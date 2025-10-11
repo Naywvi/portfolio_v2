@@ -2,8 +2,8 @@ import { RiExternalLinkLine } from "react-icons/ri";
 import type { TimelineEntry } from "../ui/timeline";
 
 export const sectionHeading2 = {
-  title: "Vous voulez en savoir plus ?",
-  subTitle: "Voici quelques projets récents sur lesquels j'ai travaillé.",
+  title: "",
+  subTitle: "",
 };
 
 export const timelineData: TimelineEntry[] = [
@@ -17,7 +17,7 @@ export const timelineData: TimelineEntry[] = [
       },
     },
     imageUrl: "/images/panel_mna0d.png",
-    description: `Prototype avancé de malware développé en Rust 🦀 dans un cadre académique. Le projet explore la robustesse des systèmes de sécurité et permet de tester des stratégies de défense, tout en respectant des pratiques de programmation sécurisée.`,
+    description: `Prototype avancé de malware développé en Rust dans un cadre académique. Le projet explore la robustesse des systèmes de sécurité et permet de tester des stratégies de défense, tout en respectant des pratiques de programmation sécurisée.`,
     tech: [
       "Rust",
       "REACT Native",
