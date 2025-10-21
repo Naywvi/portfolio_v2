@@ -5,11 +5,14 @@ import { Code2, Rocket, Coffee, Zap } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const codeSnippets = [
-    "npm install innovation",
-    "git commit -m 'Building something awesome'",
-    "const passion = true;",
-    "while(learning) { create(); }",
-    "// Transforming ideas into reality",
+    "cargo build --release --target x86_64-unknown-linux-gnu",
+    "sudo wazuh-manager status && tail -f /var/ossec/logs/alerts/alerts.json",
+    "proxmox-backup-client backup vm/100.qcow2 --repository backup@pbs:datastore",
+    "rustc --emit=llvm-ir kernel_allocator.rs -C opt-level=3",
+    "docker-compose up -d && docker logs -f c2-server",
+    "psql -U postgres -d production -c 'SELECT * FROM incidents WHERE severity >= 8;'",
+    "nmap -sS -sV -O -A --script=vuln 192.168.1.0/24",
+    "systemctl restart pfsense && pfctl -f /etc/pf.conf",
 ];
 
 export function ProjectsHero(): JSX.Element {
@@ -49,26 +52,13 @@ export function ProjectsHero(): JSX.Element {
     ];
 
     return (
-        <div className="relative overflow-hidden py-20 lg:py-32">
-            {/* Background effects */}
-            <div className="absolute left-1/4 top-0 h-96 w-96 rounded-full bg-purple-500/20 blur-3xl" />
-            <div className="absolute bottom-0 right-1/4 h-96 w-96 rounded-full bg-blue-500/20 blur-3xl" />
-
-            {/* Grid pattern */}
-            <div
-                className="pointer-events-none absolute inset-0 opacity-[0.02]"
-                style={{
-                    backgroundImage: `linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px)`,
-                    backgroundSize: '50px 50px',
-                }}
-            />
-
-            <div className="relative z-10 px-4 md:container">
+        <div className="relative py-20 lg:py-32">
+            <div className="relative z-10">
                 {/* Titre principal */}
                 <div className="mb-12 text-center">
                     <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-purple-500/20 bg-purple-500/10 px-4 py-2 text-sm text-purple-300 backdrop-blur-sm">
                         <Code2 className="h-4 w-4" />
-                        <span>Portfolio de projets</span>
+                        <span>Liste des projets</span>
                     </div>
                     <h1 className="mb-6 text-4xl font-bold text-white lg:text-6xl">
                         Développement & {" "}

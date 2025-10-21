@@ -210,20 +210,20 @@ export function SkillTreeVisualization({ data }: Props): JSX.Element {
           </div>
 
           {/* Flèche pointant vers le panneau - Desktop uniquement */}
-          <div className="absolute left-[22rem] top-[40%] hidden animate-bounce lg:block">
+          {/* <div className="absolute left-[22rem] top-[40%] hidden animate-bounce lg:block">
             <div className="text-6xl">👈</div>
             <p className="mt-2 text-lg font-semibold text-white">
               C'est ici !
             </p>
-          </div>
+          </div> */}
 
           {/* Flèche mobile - pointe vers le haut */}
-          <div className="absolute left-1/2 top-[35%] -translate-x-1/2 transform animate-bounce lg:hidden">
+          {/* <div className="absolute left-1/2 top-[35%] -translate-x-1/2 transform animate-bounce lg:hidden">
             <div className="text-6xl">☝️</div>
             <p className="mt-2 text-center text-lg font-semibold text-white">
               Juste ici !
             </p>
-          </div>
+          </div> */}
         </div>
       )}
 

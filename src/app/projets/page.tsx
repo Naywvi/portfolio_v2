@@ -15,8 +15,6 @@ export default function HomePage() {
       {/* <Hero /> */}
       <CustomCursor enabled={true} />
       <ProjectsList />
-      {/* <About /> */}
-      <Contact />
       <Footer />
       <CustomContextMenu />
     </main>

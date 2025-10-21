@@ -1,152 +1,95 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import './loader.css';
 
 export function Loader() {
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+    const [progress, setProgress] = useState(0);
     const pathname = usePathname();
-    const searchParams = useSearchParams();
 
     useEffect(() => {
-        // Démarrer le loader
+        // Démarrer le chargement
         setIsLoading(true);
+        setProgress(0);
 
-        // Attendre que la page soit complètement chargée
-        const handleComplete = () => {
-            setIsLoading(false);
+        // Simuler une progression réaliste
+        const progressInterval = setInterval(() => {
+            setProgress((prev) => {
+                if (prev >= 90) return prev;
+                return prev + Math.random() * 15;
+            });
+        }, 200);
+
+        // Vérifier que tout est chargé
+        const checkLoaded = () => {
+            // Atteindre 100%
+            setProgress(100);
+
+            // Attendre un peu avant de cacher le loader
+            setTimeout(() => {
+                setIsLoading(false);
+            }, 400);
         };
 
-        // Si le document est déjà chargé
+        // Si déjà chargé
         if (document.readyState === 'complete') {
-            handleComplete();
+            setTimeout(checkLoaded, 500); // Délai minimum pour voir le loader
         } else {
-            // Sinon, attendre l'événement load
-            window.addEventListener('load', handleComplete);
+            window.addEventListener('load', checkLoaded);
         }
 
+        // Sécurité : forcer la fin après 5 secondes max
+        const timeout = setTimeout(checkLoaded, 5000);
+
         return () => {
-            window.removeEventListener('load', handleComplete);
+            clearInterval(progressInterval);
+            clearTimeout(timeout);
+            window.removeEventListener('load', checkLoaded);
         };
-    }, [pathname, searchParams]);
+    }, [pathname]);
 
     if (!isLoading) return null;
 
     return (
         <div className="page-loader-overlay">
+            {/* Sphères d'arrière-plan animées */}
+            <div className="loader-sphere-1" />
+            <div className="loader-sphere-2" />
+            <div className="loader-sphere-3" />
+
+            {/* Contenu centré */}
             <div className="page-loader-content">
-                <svg
-                    viewBox="0 0 78 38"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    strokeWidth="1"
-                    className="page-loader-logo"
-                >
-                    <defs>
-                        <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stopColor="#3b82f6" />
-                            <stop offset="50%" stopColor="#14b8a6" />
-                            <stop offset="100%" stopColor="#ec4899" />
-                        </linearGradient>
-                    </defs>
+                {/* Spinner moderne avec cercles concentriques */}
+                <div className="loader-spinner">
+                    <div className="spinner-ring spinner-ring-1" />
+                    <div className="spinner-ring spinner-ring-2" />
+                    <div className="spinner-ring spinner-ring-3" />
+                    <div className="spinner-core" />
+                </div>
 
-                    {/* Arc principal avec blur */}
-                    <path
-                        d="M63.5,22.3294a19.5,19.5,0,0,0-39,0"
-                        stroke="url(#logoGradient)"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="blur-path"
-                    />
-                    <path
-                        d="M63.5,22.3294a19.5,19.5,0,0,0-39,0"
-                        stroke="url(#logoGradient)"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="main-path arc-1"
-                    />
-
-                    {/* Petit arc avec blur */}
-                    <path
-                        d="M38.4694,26.593a6.9229,6.9229,0,0,0,9.79-9.7905"
-                        stroke="url(#logoGradient)"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="blur-path"
-                    />
-                    <path
-                        d="M38.4694,26.593a6.9229,6.9229,0,0,0,9.79-9.7905"
-                        stroke="url(#logoGradient)"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="main-path arc-2"
-                    />
-
-                    {/* Arc moyen avec blur */}
-                    <path
-                        d="M43.25,33.1706a11.2273,11.2273,0,1,0,0-22.4545"
-                        stroke="url(#logoGradient)"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="blur-path"
-                    />
-                    <path
-                        d="M43.25,33.1706a11.2273,11.2273,0,1,0,0-22.4545"
-                        stroke="url(#logoGradient)"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="main-path arc-3"
-                    />
-
-                    {/* Grand arc avec blur */}
-                    <path
-                        d="M54.6024,32.2223a14.6374,14.6374,0,1,0-20.7-20.7"
-                        stroke="url(#logoGradient)"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="blur-path"
-                    />
-                    <path
-                        d="M54.6024,32.2223a14.6374,14.6374,0,1,0-20.7-20.7"
-                        stroke="url(#logoGradient)"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="main-path arc-4"
-                    />
-
-                    {/* Texte avec blur */}
-                    <text
-                        x="6"
-                        y="25"
-                        fontSize="12"
-                        fontFamily="Arial"
-                        fontWeight="bold"
-                        fill="url(#logoGradient)"
-                        className="blur-text"
-                    >
-                        Naywvi
-                    </text>
-                    <text
-                        x="6"
-                        y="25"
-                        fontSize="12"
-                        fontFamily="Arial"
-                        fontWeight="bold"
-                        fill="white"
-                        className="main-text"
-                    >
-                        Naywvi
-                    </text>
-                </svg>
+                {/* Nom avec gradient */}
+                <h4 className="loader-title">La folie c'est de faire toujours la même chose et de s'attendre à un résultat différent - Albert Einstein</h4>
 
                 {/* Barre de progression */}
-                <div className="progress-bar">
-                    <div className="progress-bar-fill" />
+                <div className="progress-container">
+                    <div className="progress-bar">
+                        <div
+                            className="progress-bar-fill"
+                            style={{ width: `${progress}%` }}
+                        />
+                        <div className="progress-shimmer" />
+                    </div>
+                    <p className="progress-percentage">
+                        {Math.round(progress)}%
+                    </p>
                 </div>
 
                 {/* Texte de chargement */}
-                <p className="loading-text">Chargement en cours...</p>
+                <p className="loading-text">
+                    Chargement<span className="loading-dots">...</span>
+                </p>
             </div>
         </div>
     );

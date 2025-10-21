@@ -37,8 +37,8 @@ export function Navbar(): JSX.Element {
 
   // Style pour le lien actif (desktop)
   const getLinkClassName = (path: string): string => {
-    const baseClasses = "text-sm font-medium transition-all duration-300 relative";
-    const activeClasses = "text-white";
+    const baseClasses = "text-sm font-medium transition-all duration-300 relative group px-3 py-2 flex items-center gap-2";
+    const activeClasses = "text-white font-semibold";
     const inactiveClasses = "text-white/60 hover:text-white/80";
     return `${baseClasses} ${isActive(path) ? activeClasses : inactiveClasses}`;
   };
@@ -46,7 +46,7 @@ export function Navbar(): JSX.Element {
   // Style pour le lien actif (mobile)
   const getMobileLinkClassName = (path: string): string => {
     const baseClasses = "text-lg font-medium transition-all duration-300 px-4 py-3 rounded-lg block";
-    const activeClasses = "bg-gradient-to-r from-purple-600 via-blue-600 to-cyan-600 text-white";
+    const activeClasses = "bg-gradient-to-r from-purple-600 via-blue-600 to-cyan-600 text-white shadow-lg shadow-purple-500/30";
     const inactiveClasses = "text-white/80 hover:bg-white/10";
     return `${baseClasses} ${isActive(path) ? activeClasses : inactiveClasses}`;
   };
@@ -67,17 +67,21 @@ export function Navbar(): JSX.Element {
           </Link>
 
           {/* Navigation desktop - cachée sur mobile */}
-          <div className="hidden items-center gap-6 lg:flex lg:gap-8">
+          <div className="hidden items-center gap-2 lg:flex lg:gap-4">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 className={getLinkClassName(link.href)}
               >
-                {link.label}
+                {/* Petit point indicateur minimaliste */}
                 {isActive(link.href) && (
-                  <span className="absolute -bottom-2 left-0 h-0.5 w-full animate-shimmer bg-gradient-to-r from-blue-500 via-teal-400 to-pink-500" />
+                  <span className="h-1.5 w-1.5 rounded-full bg-gradient-to-r from-purple-500 to-blue-500" />
                 )}
+                {link.label}
+
+                {/* Hover effect pour tous les liens */}
+                <span className="absolute inset-0 -z-10 scale-0 bg-white/5 rounded-lg transition-transform duration-300 group-hover:scale-100" />
               </Link>
             ))}
           </div>
@@ -132,8 +136,8 @@ export function Navbar(): JSX.Element {
           </div>
 
           {/* Decorative gradient orb */}
-          <div className="absolute bottom-20 right-10 h-64 w-64 rounded-full bg-purple-500/20 blur-3xl" />
-          <div className="absolute left-10 top-40 h-64 w-64 rounded-full bg-blue-500/20 blur-3xl" />
+          <div className="absolute bottom-20 right-10 h-64 w-64 rounded-full bg-purple-500/20 blur-3xl animate-pulse" style={{ animationDuration: '4s' }} />
+          <div className="absolute left-10 top-40 h-64 w-64 rounded-full bg-blue-500/20 blur-3xl animate-pulse" style={{ animationDuration: '5s' }} />
         </div>
       </div>
 
